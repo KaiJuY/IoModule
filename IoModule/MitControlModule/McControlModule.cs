@@ -105,11 +105,6 @@ namespace IOControlModule.MitControlModule
             _logManager.Trace(Serilog.Events.LogEventLevel.Information, $"{nameof(McControlModule)} - {nameof(setPerportyLogic)} : Start. Args : {perportyName}, {values}");
             try
             {
-                if (!_Perporty.ContainsKey(perportyName))
-                {
-                    _logManager.Trace(Serilog.Events.LogEventLevel.Error, $"{nameof(McControlModule)} - {nameof(setPerportyLogic)} : The perporty name is not exist.");
-                    return false;
-                }
                 if (perportyName == "Port" && !(values[0] is int))
                 {
                     _logManager.Trace(Serilog.Events.LogEventLevel.Error, $"{nameof(McControlModule)} - {nameof(setPerportyLogic)} : The value is not this perporty expected type.");
