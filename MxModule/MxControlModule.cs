@@ -52,6 +52,7 @@ namespace IOControlModule.MitControlModule
                 _ActMLProgTypeClass.ActHostAddress = ip[0].ToString();
                 _ActMLProgTypeClass.ActPortNumber = (int)port[0];
                 if ((int)_ActMLProgTypeClass.Open() != 0) throw new Exception("The connection is failed");
+                _isConnected = true;
 
             }
             catch (Exception ex)
