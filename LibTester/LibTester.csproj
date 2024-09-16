@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -26,9 +26,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="IoModule">
-      <HintPath>..\IoModule\bin\Debug\netstandard2.1\IoModule.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\IoModule\IoModule.csproj" />
+    <ProjectReference Include="..\MxModule\MxModule.csproj" />
   </ItemGroup>
 
 </Project>

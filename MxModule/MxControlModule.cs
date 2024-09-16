@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using IoModule.Root;
 using IoModule.MitControlModule;
+using ActProgTypeLib;
 
 namespace IOControlModule.MitControlModule
 {

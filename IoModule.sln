@@ -5,7 +5,9 @@ VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IoModule", "IoModule\IoModule.csproj", "{15EA2F35-6D8B-4E59-9F6C-8DDFE65C0D58}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibTester", "LibTester\LibTester.csproj", "{6B3AF121-ED8B-4EC5-9916-4EBBAF5B6476}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibTester", "LibTester\LibTester.csproj", "{6B3AF121-ED8B-4EC5-9916-4EBBAF5B6476}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MxModule", "MxModule\MxModule.csproj", "{3A521285-2C85-47E8-999B-7569B01FF20F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{6B3AF121-ED8B-4EC5-9916-4EBBAF5B6476}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B3AF121-ED8B-4EC5-9916-4EBBAF5B6476}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B3AF121-ED8B-4EC5-9916-4EBBAF5B6476}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A521285-2C85-47E8-999B-7569B01FF20F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A521285-2C85-47E8-999B-7569B01FF20F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A521285-2C85-47E8-999B-7569B01FF20F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A521285-2C85-47E8-999B-7569B01FF20F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
