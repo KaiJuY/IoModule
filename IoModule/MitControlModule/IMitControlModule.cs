@@ -11,20 +11,20 @@ namespace IOControlModule
         /// <summary>
         /// According the setting establish the connection
         /// </summary>
-        public void Connect();
+        void Connect();
         /// <summary>
         /// Disconnect the connection
         /// </summary>
-        public void Disconnect();
+        void Disconnect();
         /// <summary>
         /// Reconnect the connection
         /// </summary>
-        public void ReConnect();
+        void ReConnect();
         /// <summary>
         /// Check the connection status
         /// </summary>
         /// <returns></returns>
-        public bool IsConnected();
+        bool IsConnected();
         /// <summary>
         /// Set the perporty of the Module
         /// return true if the setting is successful
@@ -33,7 +33,7 @@ namespace IOControlModule
         /// <param name="perportyName"></param>
         /// <param name="values"></param>
         /// <returns></returns>
-        public bool SetPerporty(string perportyName, object[] values);
+        bool SetPerporty(string perportyName, object[] values);
         /// <summary>
         /// Get the perporty of the Module
         /// return true if the getting is successful
@@ -42,7 +42,7 @@ namespace IOControlModule
         /// <param name="perportyName"></param>
         /// <param name="values"></param>
         /// <returns></returns>
-        public bool GetPerporty(string perportyName, out object[] values);
+        bool GetPerporty(string perportyName, out object[] values);
         /// <summary>
         /// Write Int16 data to the PLC
         /// return true if the writing is successful
@@ -52,7 +52,7 @@ namespace IOControlModule
         /// <param name="addr"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        public bool WriteDataToPLC(string device, string addr, Int16 data);
+        bool WriteDataToPLC(string device, string addr, Int16 data);
         /// <summary>
         /// Write List<Int16> data to the PLC
         /// return true if the writing is successful
@@ -62,7 +62,7 @@ namespace IOControlModule
         /// <param name="addr"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        public bool WriteDataToPLC(string device, string addr, List<Int16> data);
+        bool WriteDataToPLC(string device, string addr, List<Int16> data);
         /// <summary>
         /// Write string data to the PLC
         /// return true if the writing is successful
@@ -72,7 +72,7 @@ namespace IOControlModule
         /// <param name="addr"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        public bool WriteDataToPLC(string device, string addr, string data);
+        bool WriteDataToPLC(string device, string addr, string data);
         /// <summary>
         /// Write List<Int16> data to the PLC, according the device and addr
         /// The device and addr should be the same length as the data,
@@ -85,7 +85,7 @@ namespace IOControlModule
         /// <param name="addr"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        public bool WriteDataToPLC(List<string> device, List<string> addr, List<Int16> data);
+        bool WriteDataToPLC(List<string> device, List<string> addr, List<Int16> data);
         /// <summary>
         /// Read Int16 data from the PLC
         /// return true if the reading is successful
@@ -95,7 +95,7 @@ namespace IOControlModule
         /// <param name="addr"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public bool ReadDataFromPLC(string device, string addr, out Int16 value);
+        bool ReadDataFromPLC(string device, string addr, out Int16 value);
         /// <summary>
         /// Read List<Int16> data from the PLC
         /// return true if the reading is successful
@@ -106,7 +106,7 @@ namespace IOControlModule
         /// <param name="wordlen"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public bool ReadDataFromPLC(string device, string addr, int wordlen, out List<Int16> value);
+        bool ReadDataFromPLC(string device, string addr, int wordlen, out List<Int16> value);
         /// <summary>
         /// Read string data from the PLC
         /// return true if the reading is successful
@@ -117,7 +117,7 @@ namespace IOControlModule
         /// <param name="wordlen"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public bool ReadDataFromPLC(string device, string addr, int wordlen, out string value);
+        bool ReadDataFromPLC(string device, string addr, int wordlen, out string value);
         /// <summary>
         /// Read List<Int16> data from the PLC, according the device and addr
         /// The device and addr should be the same length as the data,
@@ -130,7 +130,7 @@ namespace IOControlModule
         /// <param name="addr"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        public bool ReadDataFromPLC(List<string> device, List<string> addr, out List<Int16> data);
+        bool ReadDataFromPLC(List<string> device, List<string> addr, out List<Int16> data);
         /// <summary>
         /// Do the primary handshake, 
         /// we are the active in the handshake.
@@ -142,7 +142,7 @@ namespace IOControlModule
         /// <param name="Sdevice"></param>
         /// <param name="Saddr"></param>
         /// <returns></returns>
-        public bool PrimaryHandshake(string Pdevice, string Paddr, string Sdevice, string Saddr, double Sec);
+        bool PrimaryHandshake(string Pdevice, string Paddr, string Sdevice, string Saddr, double Sec);
         /// <summary>
         /// Do the secondary handshake,
         /// we are the passive in the handshake.
@@ -154,7 +154,7 @@ namespace IOControlModule
         /// <param name="Sdevice"></param>
         /// <param name="Saddr"></param>
         /// <returns></returns>
-        public bool SecondaryHandshake(string Pdevice, string Paddr, string Sdevice, string Saddr, double Sec);
+        bool SecondaryHandshake(string Pdevice, string Paddr, string Sdevice, string Saddr, double Sec);
         /// <summary>
         /// Monitor the data from the PLC
         /// return true if the monitoring rise from this address and is change in the interval
@@ -165,6 +165,6 @@ namespace IOControlModule
         /// <param name="interval"></param>
         /// <param name="rise"></param>
         /// <returns></returns>
-        public bool MonitorData(string device, string addr, TimeSpan interval, bool rise = true);
+        bool MonitorData(string device, string addr, TimeSpan interval, bool rise = true);
     }
 }
