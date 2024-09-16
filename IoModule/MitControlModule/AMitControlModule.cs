@@ -90,7 +90,7 @@ namespace IOControlModule.MitControlModule
             RecordLog($"{nameof(AMitControlModule)} - {nameof(SetPerporty)} : Start. Args : {perportyName}, {values}");
             try
             {
-                setPerportyLogic(perportyName, values);
+                result = setPerportyLogic(perportyName, values);
             }
             catch (Exception ex)
             {
@@ -109,7 +109,7 @@ namespace IOControlModule.MitControlModule
             RecordLog($"{nameof(AMitControlModule)} - {nameof(GetPerporty)} : Start. Args : {perportyName}");
             try
             {
-                getPerportyLogic(perportyName, out values);
+                result = getPerportyLogic(perportyName, out values);
             }
             catch (Exception ex)
             {
@@ -127,7 +127,7 @@ namespace IOControlModule.MitControlModule
             RecordLog($"{nameof(AMitControlModule)} - {nameof(WriteDataToPLC)}<{typeof(Int16)}> : Start. Args : {device}, {addr}, {data}");
             try
             {
-                writeDataToPLCLogic(device, addr, data);
+                result = writeDataToPLCLogic(device, addr, data);
             }
             catch (Exception ex)
             {
@@ -145,7 +145,7 @@ namespace IOControlModule.MitControlModule
             RecordLog($"{nameof(AMitControlModule)} - {nameof(WriteDataToPLC)}<{typeof(List<Int16>)}> : Start. Args : {device}, {addr}, {data}");
             try
             {
-                writeDataToPLCLogic(device, addr, data);
+                result = writeDataToPLCLogic(device, addr, data);
             }
             catch (Exception ex)
             {
@@ -163,7 +163,7 @@ namespace IOControlModule.MitControlModule
             RecordLog($"{nameof(AMitControlModule)} - {nameof(WriteDataToPLC)}<{typeof(string)}> : Start. Args : {device}, {addr}, {data}");
             try
             {
-                writeDataToPLCLogic(device, addr, data);
+                result = writeDataToPLCLogic(device, addr, data);
             }
             catch (Exception ex)
             {
@@ -181,7 +181,7 @@ namespace IOControlModule.MitControlModule
             RecordLog($"{nameof(AMitControlModule)} - {nameof(WriteDataToPLC)}<{typeof(List<string>)}> : Start. Args : {device}, {addr}, {data}");
             try
             {
-                writeDataToPLCLogic(device, addr, data);
+                result = writeDataToPLCLogic(device, addr, data);
             }
             catch (Exception ex)
             {
@@ -200,7 +200,7 @@ namespace IOControlModule.MitControlModule
             RecordLog($"{nameof(AMitControlModule)} - {nameof(ReadDataFromPLC)}<{typeof(Int16)}> : Start. Args : {device}, {addr}");
             try
             {
-                readDataFromPLCLogic(device, addr, out value);
+                result = readDataFromPLCLogic(device, addr, out value);
             }
             catch (Exception ex)
             {
@@ -219,7 +219,7 @@ namespace IOControlModule.MitControlModule
             RecordLog($"{nameof(AMitControlModule)} - {nameof(ReadDataFromPLC)}<{typeof(List<Int16>)}> : Start. Args : {device}, {addr}, {wordlen}");
             try
             {
-                readDataFromPLCLogic(device, addr, wordlen, out value);
+                result = readDataFromPLCLogic(device, addr, wordlen, out value);
             }
             catch (Exception ex)
             {
@@ -238,7 +238,7 @@ namespace IOControlModule.MitControlModule
             RecordLog($"{nameof(AMitControlModule)} - {nameof(ReadDataFromPLC)}<{typeof(string)}> : Start. Args : {device}, {addr}, {wordlen}");
             try
             {
-                readDataFromPLCLogic(device, addr, wordlen, out value);
+                result = readDataFromPLCLogic(device, addr, wordlen, out value);
             }
             catch (Exception ex)
             {
@@ -257,7 +257,7 @@ namespace IOControlModule.MitControlModule
             RecordLog($"{nameof(AMitControlModule)} - {nameof(ReadDataFromPLC)}<{typeof(string)}> : Start. Args : {device}, {addr}");
             try
             {
-                readDataFromPLCLogic(device, addr, out value);
+                result = readDataFromPLCLogic(device, addr, out value);
             }
             catch (Exception ex)
             {
@@ -275,7 +275,7 @@ namespace IOControlModule.MitControlModule
             RecordLog($"{nameof(AMitControlModule)} - {nameof(PrimaryHandshake)} : Start. Args : {Pdevice}, {Paddr}, {Sdevice}, {Saddr}, {Sec}");
             try
             {
-                primaryHandshakeLogic(Pdevice, Paddr, Sdevice, Saddr, Sec);
+                result = primaryHandshakeLogic(Pdevice, Paddr, Sdevice, Saddr, Sec);
             }
             catch (Exception ex)
             {
@@ -293,7 +293,7 @@ namespace IOControlModule.MitControlModule
             RecordLog($"{nameof(AMitControlModule)} - {nameof(SecondaryHandshake)} : Start. Args : {Pdevice}, {Paddr}, {Sdevice}, {Saddr}, {Sec}");
             try
             {
-                secondaryHandshakeLogic(Pdevice, Paddr, Sdevice, Saddr, Sec);
+                result = secondaryHandshakeLogic(Pdevice, Paddr, Sdevice, Saddr, Sec);
             }
             catch (Exception ex)
             {
@@ -311,7 +311,7 @@ namespace IOControlModule.MitControlModule
             RecordLog($"{nameof(AMitControlModule)} - {nameof(MonitorData)} : Start. Args : {device}, {addr}, {interval}, {rise}");
             try
             {
-                monitorDataLogic(device, addr, interval, rise);
+                result = monitorDataLogic(device, addr, interval, rise);
             }
             catch (Exception ex)
             {
