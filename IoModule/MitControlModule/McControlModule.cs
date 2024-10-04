@@ -19,7 +19,6 @@ namespace IOControlModule.MitControlModule
     public class McControlModule : AMitControlModule
     {
         protected MitUtility _MitUtility = MitUtility.getInstance();
-        protected Plc _PLC = PLCData.PLC;
         protected Dictionary<string, object> _Perporty;
         private object _lockObj = new object();
         public McControlModule(string ip, int port) : base()
@@ -35,8 +34,8 @@ namespace IOControlModule.MitControlModule
             _logManager.Trace(Serilog.Events.LogEventLevel.Information, $"{nameof(McControlModule)} - {nameof(connectLogic)} : Start");
             try
             {
-                _PLC = new McProtocolTcp(_Perporty["IP"].ToString(), (int)_Perporty["Port"], Mitsubishi.McFrame.MC3E);
-                await _PLC.Open();
+                PLCData.PLC = new McProtocolTcp(_Perporty["IP"].ToString(), (int)_Perporty["Port"], Mitsubishi.McFrame.MC3E);
+                await PLCData.PLC.Open();
             }
             catch (Exception ex)
             {
@@ -52,7 +51,7 @@ namespace IOControlModule.MitControlModule
             _logManager.Trace(Serilog.Events.LogEventLevel.Information, $"{nameof(McControlModule)} - {nameof(disconnectLogic)} : Start");
             try
             {
-                _PLC.Close();
+                PLCData.PLC.Close();
             }
             catch (Exception ex)
             {
@@ -87,7 +86,7 @@ namespace IOControlModule.MitControlModule
             _logManager.Trace(Serilog.Events.LogEventLevel.Information, $"{nameof(McControlModule)} - {nameof(isConnectedLogic)} : Start");
             try
             {
-                result = _PLC.Connected;
+                result = PLCData.PLC?.Connected ?? false;
             }
             catch (Exception ex)
             {
