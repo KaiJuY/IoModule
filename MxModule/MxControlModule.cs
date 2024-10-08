@@ -265,7 +265,7 @@ namespace IOControlModule.MitControlModule
             _logManager.Trace(Serilog.Events.LogEventLevel.Information, $"{nameof(MxControlModule)} - {nameof(readDataFromPLCLogic)}<{typeof(Int16)}> : Start. Args : {device}, {addr}");
             try
             {
-                lock (_lockObj) result = (FunctionResult)_ActMLProgTypeClass.GetDevice2(PrepartDevice(device, addr), out value) == FunctionResult.Success;
+                result = (FunctionResult)_ActMLProgTypeClass.GetDevice2(PrepartDevice(device, addr), out value) == FunctionResult.Success;
             }
             catch (Exception ex)
             {
@@ -285,7 +285,7 @@ namespace IOControlModule.MitControlModule
             try
             {
                 Int16[] rdata = new Int16[wordlen];
-                lock (_lockObj) result = (FunctionResult)_ActMLProgTypeClass.ReadDeviceBlock2(PrepartDevice(device, addr), wordlen, out rdata[0]) == FunctionResult.Success;
+                result = (FunctionResult)_ActMLProgTypeClass.ReadDeviceBlock2(PrepartDevice(device, addr), wordlen, out rdata[0]) == FunctionResult.Success;
                 if (result) value = rdata.ToList();
             }
             catch (Exception ex)
@@ -307,7 +307,7 @@ namespace IOControlModule.MitControlModule
             {
                 if (wordlen <= 0) return false;
                 Int16[] _data = new Int16[wordlen];
-                lock (_lockObj) result = (FunctionResult)_ActMLProgTypeClass.ReadDeviceBlock2(PrepartDevice(device, addr), wordlen, out _data[0]) == FunctionResult.Success;
+                result = (FunctionResult)_ActMLProgTypeClass.ReadDeviceBlock2(PrepartDevice(device, addr), wordlen, out _data[0]) == FunctionResult.Success;
                 if (!result) return false;
                 string _value = string.Empty;
                 for (int i = 0; i < wordlen; i++)
@@ -350,7 +350,7 @@ namespace IOControlModule.MitControlModule
                     if (i == device.Count - 1) break; // the last one should not add \n
                     deviceCollection += "\n";
                 }
-                lock (_lockObj) result = (FunctionResult)_ActMLProgTypeClass.WriteDeviceRandom2(deviceCollection, rdata.Length, ref rdata[0]) == FunctionResult.Success;
+                result = (FunctionResult)_ActMLProgTypeClass.ReadDeviceBlock2(deviceCollection, rdata.Length, ref rdata[0]) == FunctionResult.Success;
                 if (result) value = rdata.ToList();
             }
             catch (Exception ex)

@@ -54,6 +54,7 @@ namespace IoModule.Root
         {
             try
             {
+                message = string.Format($"[{DateTime.Now.ToString("yyyy/MM/dd/HH mm:ss.fff")}] - ") + message;
                 switch (logEventLevel)
                 {
                     case LogEventLevel.Debug:

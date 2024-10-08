@@ -266,7 +266,8 @@ namespace IOControlModule.MitControlModule
                 Mitsubishi.PlcDeviceType plcDevice = GetPlcDeviceType(device);
                 int plcAddress = GetAddress(plcDevice, addr);
                 PLCData<Int16> _data = new PLCData<Int16>(plcDevice, plcAddress, 1);// Add on 5-31
-                lock (_lockObj) _data.ReadData();
+                //lock (_lockObj) _data.ReadData();
+                _data.ReadData();
                 value = _data[0];
                 result = true;
             }
@@ -292,7 +293,8 @@ namespace IOControlModule.MitControlModule
                 Mitsubishi.PlcDeviceType plcDevice = GetPlcDeviceType(device);
                 int plcAddress = GetAddress(plcDevice, addr);
                 PLCData<Int16> _data = new PLCData<Int16>(plcDevice, plcAddress, wordlen);// Add on 5-31
-                lock (_lockObj) _data.ReadData();
+                //lock (_lockObj) _data.ReadData();
+                _data.ReadData();
                 for (int i = 0; i < wordlen; i++)
                 {
                     value[i] = _data[i];
@@ -320,7 +322,8 @@ namespace IOControlModule.MitControlModule
                 Mitsubishi.PlcDeviceType plcDevice = GetPlcDeviceType(device);
                 int plcAddress = GetAddress(plcDevice, addr);
                 PLCData<Int16> _data = new PLCData<Int16>(plcDevice, plcAddress, wordlen);// Add on 5-31
-                lock (_lockObj) _data.ReadData();
+                //lock (_lockObj) _data.ReadData();
+                _data.ReadData();
                 string _value = string.Empty;
                 for (int i = 0; i < wordlen; i++)
                 {
