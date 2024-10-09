@@ -21,7 +21,7 @@ namespace IOControlModule.MitControlModule
         protected MitUtility _MitUtility = MitUtility.getInstance();
         protected Dictionary<string, object> _Perporty;
         private object _lockObj = new object();
-        public McControlModule(string ip, int port) : base()
+        public McControlModule(string ip, int port, bool Enable = true) : base(Enable)
         {
             _Perporty = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
             SetPerporty("IP", new object[] { ip });
@@ -31,7 +31,7 @@ namespace IOControlModule.MitControlModule
         }
         protected override async void connectLogic()
         {
-            _logManager.Trace(Serilog.Events.LogEventLevel.Information, $"{nameof(McControlModule)} - {nameof(connectLogic)} : Start");
+            RecordLog( $"{nameof(McControlModule)} - {nameof(connectLogic)} : Start");
             try
             {
                 PLCData.PLC = new McProtocolTcp(_Perporty["IP"].ToString(), (int)_Perporty["Port"], Mitsubishi.McFrame.MC3E);
@@ -39,32 +39,32 @@ namespace IOControlModule.MitControlModule
             }
             catch (Exception ex)
             {
-                _logManager.Trace(Serilog.Events.LogEventLevel.Error, $"{nameof(McControlModule)} - {nameof(connectLogic)} Exception : {ex.Message}");
+                RecordLog($"{nameof(McControlModule)} - {nameof(connectLogic)} Exception : {ex.Message}");
             }
             finally
             {
-                _logManager.Trace(Serilog.Events.LogEventLevel.Information, $"{nameof(McControlModule)} - {nameof(connectLogic)} : End");
+                RecordLog( $"{nameof(McControlModule)} - {nameof(connectLogic)} : End");
             }
         }
         protected override void disconnectLogic()
         {
-            _logManager.Trace(Serilog.Events.LogEventLevel.Information, $"{nameof(McControlModule)} - {nameof(disconnectLogic)} : Start");
+            RecordLog( $"{nameof(McControlModule)} - {nameof(disconnectLogic)} : Start");
             try
             {
                 PLCData.PLC.Close();
             }
             catch (Exception ex)
             {
-                _logManager.Trace(Serilog.Events.LogEventLevel.Error, $"{nameof(McControlModule)} - {nameof(disconnectLogic)} Exception : {ex.Message}");
+                RecordLog($"{nameof(McControlModule)} - {nameof(disconnectLogic)} Exception : {ex.Message}");
             }
             finally
             {
-                _logManager.Trace(Serilog.Events.LogEventLevel.Information, $"{nameof(McControlModule)} - {nameof(disconnectLogic)} : End");
+                RecordLog( $"{nameof(McControlModule)} - {nameof(disconnectLogic)} : End");
             }
         }
         protected override void reconnectLogic()
         {
-            _logManager.Trace(Serilog.Events.LogEventLevel.Information, $"{nameof(McControlModule)} - {nameof(reconnectLogic)} : Start");
+            RecordLog( $"{nameof(McControlModule)} - {nameof(reconnectLogic)} : Start");
             try
             {
                 disconnectLogic();
@@ -73,45 +73,45 @@ namespace IOControlModule.MitControlModule
             }
             catch (Exception ex)
             {
-                _logManager.Trace(Serilog.Events.LogEventLevel.Error, $"{nameof(McControlModule)} - {nameof(reconnectLogic)} Exception : {ex.Message}");
+                RecordLog($"{nameof(McControlModule)} - {nameof(reconnectLogic)} Exception : {ex.Message}");
             }
             finally
             {
-                _logManager.Trace(Serilog.Events.LogEventLevel.Information, $"{nameof(McControlModule)} - {nameof(reconnectLogic)} : End");
+                RecordLog( $"{nameof(McControlModule)} - {nameof(reconnectLogic)} : End");
             }
         }
         protected override bool isConnectedLogic()
         {
             bool result = false;
-            _logManager.Trace(Serilog.Events.LogEventLevel.Information, $"{nameof(McControlModule)} - {nameof(isConnectedLogic)} : Start");
+            RecordLog( $"{nameof(McControlModule)} - {nameof(isConnectedLogic)} : Start");
             try
             {
                 result = PLCData.PLC?.Connected ?? false;
             }
             catch (Exception ex)
             {
-                _logManager.Trace(Serilog.Events.LogEventLevel.Error, $"{nameof(McControlModule)} - {nameof(isConnectedLogic)} Exception : {ex.Message}");
+                RecordLog($"{nameof(McControlModule)} - {nameof(isConnectedLogic)} Exception : {ex.Message}");
             }
             finally
             {
-                _logManager.Trace(Serilog.Events.LogEventLevel.Information, $"{nameof(McControlModule)} - {nameof(isConnectedLogic)} : End. Result is {result}");
+                RecordLog( $"{nameof(McControlModule)} - {nameof(isConnectedLogic)} : End. Result is {result}");
             }
             return result;
         }
         protected override bool setPerportyLogic(string perportyName, object[] values)
         {
             bool result = false;
-            _logManager.Trace(Serilog.Events.LogEventLevel.Information, $"{nameof(McControlModule)} - {nameof(setPerportyLogic)} : Start. Args : {perportyName}, {values}");
+            RecordLog( $"{nameof(McControlModule)} - {nameof(setPerportyLogic)} : Start. Args : {perportyName}, {values}");
             try
             {
                 if (perportyName == "Port" && !(values[0] is int))
                 {
-                    _logManager.Trace(Serilog.Events.LogEventLevel.Error, $"{nameof(McControlModule)} - {nameof(setPerportyLogic)} : The value is not this perporty expected type.");
+                    RecordLog($"{nameof(McControlModule)} - {nameof(setPerportyLogic)} : The value is not this perporty expected type.");
                     return false;
                 }
                 if ((perportyName == "IP" || perportyName == "Transmission" || perportyName == "McFrame") && !(values[0] is string))
                 {
-                    _logManager.Trace(Serilog.Events.LogEventLevel.Error, $"{nameof(McControlModule)} - {nameof(setPerportyLogic)} : The value is not this perporty expected type");
+                    RecordLog($"{nameof(McControlModule)} - {nameof(setPerportyLogic)} : The value is not this perporty expected type");
                     return false;
                 }
                 _Perporty[perportyName] = values[0];
@@ -119,11 +119,11 @@ namespace IOControlModule.MitControlModule
             }
             catch (Exception ex)
             {
-                _logManager.Trace(Serilog.Events.LogEventLevel.Error, $"{nameof(McControlModule)} - {nameof(setPerportyLogic)} Exception : {ex.Message}");
+                RecordLog($"{nameof(McControlModule)} - {nameof(setPerportyLogic)} Exception : {ex.Message}");
             }
             finally
             {
-                _logManager.Trace(Serilog.Events.LogEventLevel.Information, $"{nameof(McControlModule)} - {nameof(setPerportyLogic)} : End. Result is {result}");
+                RecordLog( $"{nameof(McControlModule)} - {nameof(setPerportyLogic)} : End. Result is {result}");
             }
             return result;
         }
@@ -131,12 +131,12 @@ namespace IOControlModule.MitControlModule
         {
             bool result = false;
             values = null;
-            _logManager.Trace(Serilog.Events.LogEventLevel.Information, $"{nameof(McControlModule)} - {nameof(getPerportyLogic)} : Start. Args : {perportyName}");
+            RecordLog( $"{nameof(McControlModule)} - {nameof(getPerportyLogic)} : Start. Args : {perportyName}");
             try
             {
                 if (!_Perporty.ContainsKey(perportyName))
                 {
-                    _logManager.Trace(Serilog.Events.LogEventLevel.Error, $"{nameof(McControlModule)} - {nameof(setPerportyLogic)} : The perporty name is not exist.");
+                    RecordLog($"{nameof(McControlModule)} - {nameof(setPerportyLogic)} : The perporty name is not exist.");
                     return false;
                 }
                 values = new object[] { _Perporty[perportyName] };
@@ -144,18 +144,18 @@ namespace IOControlModule.MitControlModule
             }
             catch (Exception ex)
             {
-                _logManager.Trace(Serilog.Events.LogEventLevel.Error, $"{nameof(McControlModule)} - {nameof(getPerportyLogic)} Exception : {ex.Message}");
+                RecordLog($"{nameof(McControlModule)} - {nameof(getPerportyLogic)} Exception : {ex.Message}");
             }
             finally
             {
-                _logManager.Trace(Serilog.Events.LogEventLevel.Information, $"{nameof(McControlModule)} - {nameof(getPerportyLogic)} : End. Result is {result}, Value is {values}");
+                RecordLog( $"{nameof(McControlModule)} - {nameof(getPerportyLogic)} : End. Result is {result}, Value is {values}");
             }
             return result;
         }
         protected override bool writeDataToPLCLogic(string device, string addr, Int16 data)
         {
             bool result = false;
-            _logManager.Trace(Serilog.Events.LogEventLevel.Information, $"{nameof(McControlModule)} - {nameof(writeDataToPLCLogic)}<{typeof(Int16)}> : Start. Args : {device}, {addr}, {data}");
+            RecordLog( $"{nameof(McControlModule)} - {nameof(writeDataToPLCLogic)}<{typeof(Int16)}> : Start. Args : {device}, {addr}, {data}");
             try
             {
                 Mitsubishi.PlcDeviceType plcDevice = GetPlcDeviceType(device);
@@ -167,18 +167,18 @@ namespace IOControlModule.MitControlModule
             }
             catch (Exception ex)
             {
-                _logManager.Trace(Serilog.Events.LogEventLevel.Error, $"{nameof(McControlModule)} - {nameof(writeDataToPLCLogic)}<{typeof(Int16)}> Exception : {ex.Message}");
+                RecordLog($"{nameof(McControlModule)} - {nameof(writeDataToPLCLogic)}<{typeof(Int16)}> Exception : {ex.Message}");
             }
             finally
             {
-                _logManager.Trace(Serilog.Events.LogEventLevel.Information, $"{nameof(McControlModule)} - {nameof(writeDataToPLCLogic)}<{typeof(Int16)}> : End. Result is {result}");
+                RecordLog( $"{nameof(McControlModule)} - {nameof(writeDataToPLCLogic)}<{typeof(Int16)}> : End. Result is {result}");
             }
             return result;
         }
         protected override bool writeDataToPLCLogic(string device, string addr, List<Int16> data)
         {
             bool result = false;
-            _logManager.Trace(Serilog.Events.LogEventLevel.Information, $"{nameof(McControlModule)} - {nameof(writeDataToPLCLogic)}<{typeof(List<Int16>)}> : Start. Args : {device}, {addr}, {data}");
+            RecordLog( $"{nameof(McControlModule)} - {nameof(writeDataToPLCLogic)}<{typeof(List<Int16>)}> : Start. Args : {device}, {addr}, {data}");
             try
             {
                 if (data.Count <= 0) return false;
@@ -194,18 +194,18 @@ namespace IOControlModule.MitControlModule
             }
             catch (Exception ex)
             {
-                _logManager.Trace(Serilog.Events.LogEventLevel.Error, $"{nameof(McControlModule)} - {nameof(writeDataToPLCLogic)}<{typeof(List<Int16>)}> Exception : {ex.Message}");
+                RecordLog($"{nameof(McControlModule)} - {nameof(writeDataToPLCLogic)}<{typeof(List<Int16>)}> Exception : {ex.Message}");
             }
             finally
             {
-                _logManager.Trace(Serilog.Events.LogEventLevel.Information, $"{nameof(McControlModule)} - {nameof(writeDataToPLCLogic)}<{typeof(List<Int16>)}> : End. Result is {result}");
+                RecordLog( $"{nameof(McControlModule)} - {nameof(writeDataToPLCLogic)}<{typeof(List<Int16>)}> : End. Result is {result}");
             }
             return result;
         }
         protected override bool writeDataToPLCLogic(string device, string addr, string data)
         {
             bool result = false;
-            _logManager.Trace(Serilog.Events.LogEventLevel.Information, $"{nameof(McControlModule)} - {nameof(writeDataToPLCLogic)}<{typeof(string)}> : Start. Args : {device}, {addr}, {data}");
+            RecordLog( $"{nameof(McControlModule)} - {nameof(writeDataToPLCLogic)}<{typeof(string)}> : Start. Args : {device}, {addr}, {data}");
             try
             {
                 int ws = _MitUtility.CalculateStringLength(data);
@@ -224,18 +224,18 @@ namespace IOControlModule.MitControlModule
             }
             catch (Exception ex)
             {
-                _logManager.Trace(Serilog.Events.LogEventLevel.Error, $"{nameof(McControlModule)} - {nameof(writeDataToPLCLogic)}<{typeof(string)}> Exception : {ex.Message}");
+                RecordLog($"{nameof(McControlModule)} - {nameof(writeDataToPLCLogic)}<{typeof(string)}> Exception : {ex.Message}");
             }
             finally
             {
-                _logManager.Trace(Serilog.Events.LogEventLevel.Information, $"{nameof(McControlModule)} - {nameof(writeDataToPLCLogic)}<{typeof(string)}> : End. Result is {result}");
+                RecordLog( $"{nameof(McControlModule)} - {nameof(writeDataToPLCLogic)}<{typeof(string)}> : End. Result is {result}");
             }
             return result;
         }
         protected override bool writeDataToPLCLogic(List<string> device, List<string> addr, List<short> data)
         {
             bool result = false;
-            _logManager.Trace(Serilog.Events.LogEventLevel.Information, $"{nameof(McControlModule)} - {nameof(writeDataToPLCLogic)}<{typeof(List<Int16>)}> : Start. Args : {device}, {addr}, {data}");
+            RecordLog( $"{nameof(McControlModule)} - {nameof(writeDataToPLCLogic)}<{typeof(List<Int16>)}> : Start. Args : {device}, {addr}, {data}");
             try
             {
                 if (device.Count <= 0 || addr.Count <= 0 || data.Count <= 0) return false;
@@ -248,11 +248,11 @@ namespace IOControlModule.MitControlModule
             }
             catch (Exception ex)
             {
-                _logManager.Trace(Serilog.Events.LogEventLevel.Error, $"{nameof(McControlModule)} - {nameof(writeDataToPLCLogic)}<{typeof(List<Int16>)}> Exception : {ex.Message}");
+                RecordLog($"{nameof(McControlModule)} - {nameof(writeDataToPLCLogic)}<{typeof(List<Int16>)}> Exception : {ex.Message}");
             }
             finally
             {
-                _logManager.Trace(Serilog.Events.LogEventLevel.Information, $"{nameof(McControlModule)} - {nameof(writeDataToPLCLogic)}<{typeof(List<Int16>)}> : End. Result is {result}");
+                RecordLog( $"{nameof(McControlModule)} - {nameof(writeDataToPLCLogic)}<{typeof(List<Int16>)}> : End. Result is {result}");
             }
             return result;
         }
@@ -260,7 +260,7 @@ namespace IOControlModule.MitControlModule
         {
             bool result = false;
             value = 0;
-            _logManager.Trace(Serilog.Events.LogEventLevel.Information, $"{nameof(McControlModule)} - {nameof(readDataFromPLCLogic)}<{typeof(Int16)}> : Start. Args : {device}, {addr}");
+            RecordLog( $"{nameof(McControlModule)} - {nameof(readDataFromPLCLogic)}<{typeof(Int16)}> : Start. Args : {device}, {addr}");
             try
             {
                 Mitsubishi.PlcDeviceType plcDevice = GetPlcDeviceType(device);
@@ -273,11 +273,11 @@ namespace IOControlModule.MitControlModule
             }
             catch (Exception ex)
             {
-                _logManager.Trace(Serilog.Events.LogEventLevel.Error, $"{nameof(McControlModule)} - {nameof(readDataFromPLCLogic)}<{typeof(Int16)}> Exception : {ex.Message}");
+                RecordLog($"{nameof(McControlModule)} - {nameof(readDataFromPLCLogic)}<{typeof(Int16)}> Exception : {ex.Message}");
             }
             finally
             {
-                _logManager.Trace(Serilog.Events.LogEventLevel.Information, $"{nameof(McControlModule)} - {nameof(readDataFromPLCLogic)}<{typeof(Int16)}> : End. Result is {result}, Value is {value}");
+                RecordLog( $"{nameof(McControlModule)} - {nameof(readDataFromPLCLogic)}<{typeof(Int16)}> : End. Result is {result}, Value is {value}");
             }
             return result;
         }
@@ -285,7 +285,7 @@ namespace IOControlModule.MitControlModule
         {
             bool result = false;
             value = null;
-            _logManager.Trace(Serilog.Events.LogEventLevel.Information, $"{nameof(McControlModule)} - {nameof(readDataFromPLCLogic)}<{typeof(List<Int16>)}> : Start. Args : {device}, {addr}");
+            RecordLog( $"{nameof(McControlModule)} - {nameof(readDataFromPLCLogic)}<{typeof(List<Int16>)}> : Start. Args : {device}, {addr}");
             try
             {
                 if (wordlen <= 0) return false;
@@ -303,11 +303,11 @@ namespace IOControlModule.MitControlModule
             }
             catch (Exception ex)
             {
-                _logManager.Trace(Serilog.Events.LogEventLevel.Error, $"{nameof(McControlModule)} - {nameof(readDataFromPLCLogic)}<{typeof(List<Int16>)}> Exception : {ex.Message}");
+                RecordLog($"{nameof(McControlModule)} - {nameof(readDataFromPLCLogic)}<{typeof(List<Int16>)}> Exception : {ex.Message}");
             }
             finally
             {
-                _logManager.Trace(Serilog.Events.LogEventLevel.Information, $"{nameof(McControlModule)} - {nameof(readDataFromPLCLogic)}<{typeof(List<Int16>)}> : End. Result is {result}, Value is {value}");
+                RecordLog( $"{nameof(McControlModule)} - {nameof(readDataFromPLCLogic)}<{typeof(List<Int16>)}> : End. Result is {result}, Value is {value}");
             }
             return result;
         }
@@ -315,7 +315,7 @@ namespace IOControlModule.MitControlModule
         {
             bool result = false;
             value = null;
-            _logManager.Trace(Serilog.Events.LogEventLevel.Information, $"{nameof(McControlModule)} - {nameof(readDataFromPLCLogic)}<{typeof(string)}> : Start. Args : {device}, {addr}, {wordlen}");
+            RecordLog( $"{nameof(McControlModule)} - {nameof(readDataFromPLCLogic)}<{typeof(string)}> : Start. Args : {device}, {addr}, {wordlen}");
             try
             {
                 if (wordlen <= 0) return false;
@@ -341,11 +341,11 @@ namespace IOControlModule.MitControlModule
             }
             catch (Exception ex)
             {
-                _logManager.Trace(Serilog.Events.LogEventLevel.Error, $"{nameof(McControlModule)} - {nameof(readDataFromPLCLogic)}<{typeof(string)}> Exception : {ex.Message}");
+                RecordLog( $"{nameof(McControlModule)} - {nameof(readDataFromPLCLogic)}<{typeof(string)}> Exception : {ex.Message}");
             }
             finally
             {
-                _logManager.Trace(Serilog.Events.LogEventLevel.Information, $"{nameof(McControlModule)} - {nameof(readDataFromPLCLogic)}<{typeof(string)}> : End. Result is {result}, Value is {value}");
+                RecordLog( $"{nameof(McControlModule)} - {nameof(readDataFromPLCLogic)}<{typeof(string)}> : End. Result is {result}, Value is {value}");
             }
             return result;
         }
@@ -353,7 +353,7 @@ namespace IOControlModule.MitControlModule
         {
             bool result = false;
             value = null;
-            _logManager.Trace(Serilog.Events.LogEventLevel.Information, $"{nameof(McControlModule)} - {nameof(readDataFromPLCLogic)}<{typeof(List<Int16>)}> : Start. Args : {device}, {addr}");
+            RecordLog( $"{nameof(McControlModule)} - {nameof(readDataFromPLCLogic)}<{typeof(List<Int16>)}> : Start. Args : {device}, {addr}");
             try
             {
                 if (device.Count <= 0 || addr.Count <= 0) return false;
@@ -369,18 +369,18 @@ namespace IOControlModule.MitControlModule
             }
             catch (Exception ex)
             {
-                _logManager.Trace(Serilog.Events.LogEventLevel.Error, $"{nameof(McControlModule)} - {nameof(readDataFromPLCLogic)}<{typeof(List<Int16>)}> Exception : {ex.Message}");
+                RecordLog($"{nameof(McControlModule)} - {nameof(readDataFromPLCLogic)}<{typeof(List<Int16>)}> Exception : {ex.Message}");
             }
             finally
             {
-                _logManager.Trace(Serilog.Events.LogEventLevel.Information, $"{nameof(McControlModule)} - {nameof(readDataFromPLCLogic)}<{typeof(List<Int16>)}> : End. Result is {result}, Value is {value}");
+                RecordLog( $"{nameof(McControlModule)} - {nameof(readDataFromPLCLogic)}<{typeof(List<Int16>)}> : End. Result is {result}, Value is {value}");
             }
             return result;
         }
         protected override bool primaryHandshakeLogic(string Pdevice, string Paddr, string Sdevice, string Saddr, double Sec)
         {
             bool result = false;
-            _logManager.Trace(Serilog.Events.LogEventLevel.Information, $"{nameof(McControlModule)} - {nameof(primaryHandshakeLogic)} : Start. Args : {Pdevice}, {Paddr}, {Sdevice}, {Saddr}, {Sec}");
+            RecordLog( $"{nameof(McControlModule)} - {nameof(primaryHandshakeLogic)} : Start. Args : {Pdevice}, {Paddr}, {Sdevice}, {Saddr}, {Sec}");
             try
             {
                 if (!WriteDataToPLC(Pdevice, Paddr, (Int16)1)) throw new Exception("Write data to PLC failed in First Step.");
@@ -390,18 +390,18 @@ namespace IOControlModule.MitControlModule
             }
             catch (Exception ex)
             {
-                _logManager.Trace(Serilog.Events.LogEventLevel.Error, $"{nameof(McControlModule)} - {nameof(primaryHandshakeLogic)} Exception : {ex.Message}");
+                RecordLog($"{nameof(McControlModule)} - {nameof(primaryHandshakeLogic)} Exception : {ex.Message}");
             }
             finally
             {
-                _logManager.Trace(Serilog.Events.LogEventLevel.Information, $"{nameof(McControlModule)} - {nameof(primaryHandshakeLogic)} : End. Result is  {result}");
+                RecordLog( $"{nameof(McControlModule)} - {nameof(primaryHandshakeLogic)} : End. Result is  {result}");
             }
             return result;
         }
         protected override bool secondaryHandshakeLogic(string Pdevice, string Paddr, string Sdevice, string Saddr, double Sec)
         {
             bool result = false;
-            _logManager.Trace(Serilog.Events.LogEventLevel.Information, $"{nameof(McControlModule)} - {nameof(secondaryHandshakeLogic)} : Start. Args : {Pdevice}, {Paddr}, {Sdevice}, {Saddr}, {Sec}");
+            RecordLog( $"{nameof(McControlModule)} - {nameof(secondaryHandshakeLogic)} : Start. Args : {Pdevice}, {Paddr}, {Sdevice}, {Saddr}, {Sec}");
             try
             {
                 Int16 currentValue = 0;
@@ -413,18 +413,18 @@ namespace IOControlModule.MitControlModule
             }
             catch (Exception ex)
             {
-                _logManager.Trace(Serilog.Events.LogEventLevel.Error, $"{nameof(McControlModule)} - {nameof(secondaryHandshakeLogic)} Exception : {ex.Message}");
+                RecordLog($"{nameof(McControlModule)} - {nameof(secondaryHandshakeLogic)} Exception : {ex.Message}");
             }
             finally
             {
-                _logManager.Trace(Serilog.Events.LogEventLevel.Information, $"{nameof(McControlModule)} - {nameof(secondaryHandshakeLogic)} : End. Result is  {result}");
+                RecordLog( $"{nameof(McControlModule)} - {nameof(secondaryHandshakeLogic)} : End. Result is  {result}");
             }
             return result;
         }
         protected override bool monitorDataLogic(string device, string addr, TimeSpan interval, bool rise = true)
         {
             bool result = false;
-            _logManager.Trace(Serilog.Events.LogEventLevel.Information, $"{nameof(McControlModule)} - {nameof(monitorDataLogic)} : Start. Args : {device}, {addr}, {interval}, {rise}");
+            RecordLog( $"{nameof(McControlModule)} - {nameof(monitorDataLogic)} : Start. Args : {device}, {addr}, {interval}, {rise}");
             try
             {
                 DateTime startTime = DateTime.Now;
@@ -438,11 +438,11 @@ namespace IOControlModule.MitControlModule
             }
             catch (Exception ex)
             {
-                _logManager.Trace(Serilog.Events.LogEventLevel.Error, $"{nameof(McControlModule)} - {nameof(monitorDataLogic)} Exception : {ex.Message}");
+                RecordLog($"{nameof(McControlModule)} - {nameof(monitorDataLogic)} Exception : {ex.Message}");
             }
             finally
             {
-                _logManager.Trace(Serilog.Events.LogEventLevel.Information, $"{nameof(McControlModule)} - {nameof(monitorDataLogic)} : End. Result is  {result}");
+                RecordLog( $"{nameof(McControlModule)} - {nameof(monitorDataLogic)} : End. Result is  {result}");
             }
             return result;
         }
@@ -457,13 +457,13 @@ namespace IOControlModule.MitControlModule
                 }
                 else
                 {
-                    _logManager.Trace(Serilog.Events.LogEventLevel.Information, $"Device type is not correct.{Device}");
+                    RecordLog( $"Device type is not correct.{Device}");
                 }
             }
             catch (Exception)
             {
 
-                _logManager.Trace(Serilog.Events.LogEventLevel.Information, $"Device type is not correct.{Device}");
+                RecordLog( $"Device type is not correct.{Device}");
             }
             return _deveice;
         }
