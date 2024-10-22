@@ -289,7 +289,7 @@ namespace IOControlModule.MitControlModule
             try
             {
                 if (wordlen <= 0) return false;
-                value = new List<Int16>(wordlen);
+                value = new List<Int16>();
                 Mitsubishi.PlcDeviceType plcDevice = GetPlcDeviceType(device);
                 int plcAddress = GetAddress(plcDevice, addr);
                 PLCData<Int16> _data = new PLCData<Int16>(plcDevice, plcAddress, wordlen);// Add on 5-31
@@ -297,7 +297,7 @@ namespace IOControlModule.MitControlModule
                 _data.ReadData();
                 for (int i = 0; i < wordlen; i++)
                 {
-                    value[i] = _data[i];
+                    value.Add(_data[i]);
                 }
                 result = true;
             }

@@ -177,7 +177,7 @@ namespace IOControlModule.MitControlModule
             RecordLog($"{nameof(MxControlModule)} - {nameof(writeDataToPLCLogic)}<{typeof(Int16)}> : Start. Args : {device}, {addr}, {data}");
             try
             {
-                lock (_lockObj) result = (FunctionResult)_ActMLProgTypeClass.SetDevice2(PrepartDevice(device, addr), data) == FunctionResult.Success;
+                lock (_lockObj) result = (FunctionResult)_ActMLProgTypeClass.SetDevice2(PrepareDevice(device, addr), data) == FunctionResult.Success;
             }
             catch (Exception ex)
             {
@@ -196,7 +196,7 @@ namespace IOControlModule.MitControlModule
             try
             {
                 Int16[] wdata = data.ToArray();
-                lock (_lockObj) result = (FunctionResult)_ActMLProgTypeClass.WriteDeviceBlock2(PrepartDevice(device, addr), wdata.Length, ref wdata[0]) == FunctionResult.Success;
+                lock (_lockObj) result = (FunctionResult)_ActMLProgTypeClass.WriteDeviceBlock2(PrepareDevice(device, addr), wdata.Length, ref wdata[0]) == FunctionResult.Success;
             }
             catch (Exception ex)
             {
@@ -218,7 +218,7 @@ namespace IOControlModule.MitControlModule
                 if (ws <= 0) return false;
                 Int16[] writedata = _MitUtility.StringToASCII(data).ToArray();
                 if (writedata.Length <= 0 || writedata.Length != ws) return false; //it should be the same length, both of them are the data/2
-                lock (_lockObj) result = (FunctionResult)_ActMLProgTypeClass.WriteDeviceBlock2(PrepartDevice(device, addr), writedata.Length, ref writedata[0]) == FunctionResult.Success;
+                lock (_lockObj) result = (FunctionResult)_ActMLProgTypeClass.WriteDeviceBlock2(PrepareDevice(device, addr), writedata.Length, ref writedata[0]) == FunctionResult.Success;
             }
             catch (Exception ex)
             {
@@ -241,7 +241,7 @@ namespace IOControlModule.MitControlModule
                 for (int i = 0; i < device.Count; i++)
                 {
                     //combine the device and addr also separate by \n
-                    deviceCollection += PrepartDevice(device[i], addr[i]);
+                    deviceCollection += PrepareDevice(device[i], addr[i]);
                     if (i == device.Count - 1) break; // the last one should not add \n
                     deviceCollection += "\n";
                 }
@@ -265,7 +265,7 @@ namespace IOControlModule.MitControlModule
             RecordLog($"{nameof(MxControlModule)} - {nameof(readDataFromPLCLogic)}<{typeof(Int16)}> : Start. Args : {device}, {addr}");
             try
             {
-                result = (FunctionResult)_ActMLProgTypeClass.GetDevice2(PrepartDevice(device, addr), out value) == FunctionResult.Success;
+                result = (FunctionResult)_ActMLProgTypeClass.GetDevice2(PrepareDevice(device, addr), out value) == FunctionResult.Success;
             }
             catch (Exception ex)
             {
@@ -285,7 +285,7 @@ namespace IOControlModule.MitControlModule
             try
             {
                 Int16[] rdata = new Int16[wordlen];
-                result = (FunctionResult)_ActMLProgTypeClass.ReadDeviceBlock2(PrepartDevice(device, addr), wordlen, out rdata[0]) == FunctionResult.Success;
+                result = (FunctionResult)_ActMLProgTypeClass.ReadDeviceBlock2(PrepareDevice(device, addr), wordlen, out rdata[0]) == FunctionResult.Success;
                 if (result) value = rdata.ToList();
             }
             catch (Exception ex)
@@ -307,7 +307,7 @@ namespace IOControlModule.MitControlModule
             {
                 if (wordlen <= 0) return false;
                 Int16[] _data = new Int16[wordlen];
-                result = (FunctionResult)_ActMLProgTypeClass.ReadDeviceBlock2(PrepartDevice(device, addr), wordlen, out _data[0]) == FunctionResult.Success;
+                result = (FunctionResult)_ActMLProgTypeClass.ReadDeviceBlock2(PrepareDevice(device, addr), wordlen, out _data[0]) == FunctionResult.Success;
                 if (!result) return false;
                 string _value = string.Empty;
                 for (int i = 0; i < wordlen; i++)
@@ -346,7 +346,7 @@ namespace IOControlModule.MitControlModule
                 for (int i = 0; i < device.Count; i++)
                 {
                     //combine the device and addr also separate by \n
-                    deviceCollection += PrepartDevice(device[i], addr[i]);
+                    deviceCollection += PrepareDevice(device[i], addr[i]);
                     if (i == device.Count - 1) break; // the last one should not add \n
                     deviceCollection += "\n";
                 }
@@ -457,7 +457,7 @@ namespace IOControlModule.MitControlModule
                 RecordLog( $"{nameof(MxControlModule)} - {nameof(monitorDataLogic)} Exception : {ex.Message}");
             }
         }
-        private string PrepartDevice(string device, string addr) => $"{device}{addr}";
+        private string PrepareDevice(string device, string addr) => $"{device}{addr}";
         public enum FunctionResult
         {
             Success
