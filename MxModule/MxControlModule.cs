@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using IoModule.Root;
 using IoModule.MitControlModule;
 using ActProgTypeLib;
+using System.Runtime.InteropServices;
 
 namespace IOControlModule.MitControlModule
 {
@@ -196,7 +197,20 @@ namespace IOControlModule.MitControlModule
             try
             {
                 Int16[] wdata = data.ToArray();
-                lock (_lockObj) result = (FunctionResult)_ActMLProgTypeClass.WriteDeviceBlock2(PrepareDevice(device, addr), wdata.Length, ref wdata[0]) == FunctionResult.Success;
+                IntPtr ptr = Marshal.AllocHGlobal(wdata.Length * sizeof(short));
+                try
+                {
+                    Marshal.Copy(wdata, 0, ptr, wdata.Length);
+                    short firstVal = Marshal.ReadInt16(ptr);
+                    string valueLog = $"{nameof(MxControlModule)} - {nameof(writeDataToPLCLogic)} ValueList : \n";
+                    foreach (var item in wdata) valueLog += $" [{item}] ";
+                    RecordLog(valueLog);
+                    lock (_lockObj) result = (FunctionResult)_ActMLProgTypeClass.WriteDeviceBlock2(PrepareDevice(device, addr), wdata.Length, ref wdata[0]) == FunctionResult.Success;
+                }
+                finally
+                {
+                    Marshal.FreeHGlobal(ptr);
+                }                    
             }
             catch (Exception ex)
             {
@@ -246,7 +260,18 @@ namespace IOControlModule.MitControlModule
                     deviceCollection += "\n";
                 }
                 Int16[] wdata = data.ToArray();
-                lock (_lockObj) result = (FunctionResult)_ActMLProgTypeClass.WriteDeviceRandom2(deviceCollection, wdata.Length, ref wdata[0]) == FunctionResult.Success;
+                GCHandle handle = GCHandle.Alloc(wdata, GCHandleType.Pinned);
+                try
+                {
+                    string valueLog = $"{nameof(MxControlModule)} - {nameof(writeDataToPLCLogic)} ValueList : \n";
+                    foreach (var item in wdata) valueLog += $" [{item}] ";
+                    RecordLog(valueLog);
+                    lock (_lockObj) result = (FunctionResult)_ActMLProgTypeClass.WriteDeviceRandom2(deviceCollection, wdata.Length, ref wdata[0]) == FunctionResult.Success;
+                }
+                finally
+                {
+                    handle.Free();
+                }
             }
             catch (Exception ex)
             {
@@ -380,6 +405,7 @@ namespace IOControlModule.MitControlModule
             }
             finally
             {
+                WriteDataToPLC(Pdevice, Paddr, (Int16)0);
                 RecordLog($"{nameof(MxControlModule)} - {nameof(primaryHandshakeLogic)} : End. Result is  {result}");
             }
             return result;
@@ -403,6 +429,7 @@ namespace IOControlModule.MitControlModule
             }
             finally
             {
+                WriteDataToPLC(Sdevice, Saddr, (Int16)0);
                 RecordLog($"{nameof(MxControlModule)} - {nameof(secondaryHandshakeLogic)} : End. Result is  {result}");
             }
             return result;

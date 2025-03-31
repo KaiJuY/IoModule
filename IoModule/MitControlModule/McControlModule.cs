@@ -189,7 +189,7 @@ namespace IOControlModule.MitControlModule
                 {
                     _data[i] = data[i];
                 }
-                lock (_lockObj) _data.WriteData();
+                lock (_lockObj) _data.WriteData().GetAwaiter().GetResult();
                 result = true;
             }
             catch (Exception ex)
@@ -219,7 +219,7 @@ namespace IOControlModule.MitControlModule
                 {
                     _data[i] = writedata[i];
                 }
-                lock (_lockObj) _data.WriteData();
+                lock (_lockObj) _data.WriteData().GetAwaiter().GetResult();
                 result = true;
             }
             catch (Exception ex)
@@ -266,8 +266,8 @@ namespace IOControlModule.MitControlModule
                 Mitsubishi.PlcDeviceType plcDevice = GetPlcDeviceType(device);
                 int plcAddress = GetAddress(plcDevice, addr);
                 PLCData<Int16> _data = new PLCData<Int16>(plcDevice, plcAddress, 1);// Add on 5-31
-                //lock (_lockObj) _data.ReadData();
-                _data.ReadData();
+                //lock (_lockObj) _data.ReadData().GetAwaiter().GetResult();
+                _data.ReadData().GetAwaiter().GetResult();
                 value = _data[0];
                 result = true;
             }
@@ -293,8 +293,8 @@ namespace IOControlModule.MitControlModule
                 Mitsubishi.PlcDeviceType plcDevice = GetPlcDeviceType(device);
                 int plcAddress = GetAddress(plcDevice, addr);
                 PLCData<Int16> _data = new PLCData<Int16>(plcDevice, plcAddress, wordlen);// Add on 5-31
-                //lock (_lockObj) _data.ReadData();
-                _data.ReadData();
+                //lock (_lockObj) _data.ReadData().GetAwaiter().GetResult();
+                _data.ReadData().GetAwaiter().GetResult();
                 for (int i = 0; i < wordlen; i++)
                 {
                     value.Add(_data[i]);
@@ -322,8 +322,8 @@ namespace IOControlModule.MitControlModule
                 Mitsubishi.PlcDeviceType plcDevice = GetPlcDeviceType(device);
                 int plcAddress = GetAddress(plcDevice, addr);
                 PLCData<Int16> _data = new PLCData<Int16>(plcDevice, plcAddress, wordlen);// Add on 5-31
-                //lock (_lockObj) _data.ReadData();
-                _data.ReadData();
+                //lock (_lockObj) _data.ReadData().GetAwaiter().GetResult();
+                _data.ReadData().GetAwaiter().GetResult();
                 string _value = string.Empty;
                 for (int i = 0; i < wordlen; i++)
                 {
