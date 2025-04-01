@@ -63,7 +63,7 @@ namespace IoModule.MitControlModule
 
                 byte[] asciiBytes = Encoding.ASCII.GetBytes(new string(str.Reverse().ToArray()));
                 string ASCIICodeStr = asciiBytes.Length == 1 ?
-                    asciiBytes[0].ToString("X2") + "00" : asciiBytes[0].ToString("X2") + asciiBytes[1].ToString("X2");
+                    "00" + asciiBytes[0].ToString("X2") : asciiBytes[0].ToString("X2") + asciiBytes[1].ToString("X2");
                 ASCIICode = Convert.ToInt16(ASCIICodeStr, 16);
                 //I hope asciiCodeStr is always 4 digits and 4300 => 17152
             }
